@@ -1,40 +1,35 @@
 package entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Menu {
+    private List<Pizza> pizzaList;
+    private List<Drink> drinkList;
+    private List<Topping> toppingList;
 
-    private List<Pizza> pizzas;
-    private List<Drink> drinks;
+    public void printMenu() {
+        System.out.println("******* Menu *******");
+        System.out.println("PIZZAS");
+        this.pizzaList.forEach(System.out::println);
+        System.out.println();
 
-    public Menu() {
-        this.pizzas = new ArrayList<>();
-        this.drinks = new ArrayList<>();
-    }
+        System.out.println("TOPPINGS");
+        this.toppingList.forEach(System.out::println);
+        System.out.println();
 
-    public void addPizza(Pizza pizza) {
-        this.pizzas.add(pizza);
-    }
+        System.out.println("DRINKS");
+        this.drinkList.forEach(System.out::println);
+        System.out.println();
 
-    public void addDrink(Drink drink) {
-        this.drinks.add(drink);
-    }
-
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-
-    public List<Drink> getDrinks() {
-        return drinks;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "pizzas=" + pizzas +
-                ", drinks=" + drinks +
-                '}';
     }
 }
-

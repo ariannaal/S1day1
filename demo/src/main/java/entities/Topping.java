@@ -5,41 +5,24 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 @Getter
 @Setter
-@ToString
 
-
-public class Topping {
-
+public class Topping extends Item {
     private String name;
-    private double price;
-    private int calories;
 
-    public Topping(String name, double price, int calories) {
+    public Topping(String name, int calories, double price) {
+        super(calories, price);
         this.name = name;
-        this.price = price;
-        this.calories = calories;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public int getCalories() {
-        return calories;
     }
 
     @Override
     public String toString() {
-        return name + " (" + price + " €)";
+        return "Topping{" +
+                "name='" + name + '\'' +
+                ", calories=" + calories +
+                ", price=" + price +
+                '}';
     }
 }

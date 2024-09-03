@@ -11,13 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class S1D1Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(S1D1Application.class, args);
-
-
 		ApplicationContext context = new AnnotationConfigApplicationContext(PizzaConfig.class);
-
 		Menu menu = context.getBean(Menu.class);
-		System.out.println(menu);
-
+		menu.printMenu();
 	}
 }
