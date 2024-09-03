@@ -1,5 +1,6 @@
 package entities;
 
+import enums.StatoTavolo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,36 +12,35 @@ public class PizzaConfig {
 
     @Bean(name = "toppings_tomato")
     public Topping toppingTomatoBean() {
-        return new Topping("Tomato", 0, 0);
+        return new Topping("Tomato", 1.0, 10);
     }
 
     @Bean(name = "toppings_cheese")
     public Topping toppingCheeseBean() {
-        return new Topping("Cheese", 92, 0.69);
+        return new Topping("Cheese", 0.69, 92);
     }
 
     @Bean(name = "toppings_ham")
     public Topping toppingHamBean() {
-        return new Topping("Ham", 35, 0.99);
+        return new Topping("Ham", 0.99, 35);
     }
 
     @Bean(name = "toppings_pineapple")
     public Topping toppingPineappleBean() {
-        return new Topping("Pineapple", 24, 0.79);
+        return new Topping("Pineapple", 0.79, 24);
     }
 
     @Bean(name = "toppings_salami")
     public Topping toppingSalamiBean() {
-        return new Topping("Salami", 86, 0.99);
+        return new Topping("Salami", 0.99, 86);
     }
-
 
     @Bean(name = "pizza_margherita")
     public Pizza pizzaMargheritaBean() {
         List<Topping> tList = new ArrayList<>();
         tList.add(toppingTomatoBean());
         tList.add(toppingCheeseBean());
-        return new Pizza("Pizza Margherita", tList, false);
+        return new Pizza("Pizza Margherita", 6, 200);
     }
 
     @Bean(name = "hawaiian_pizza")
@@ -50,7 +50,7 @@ public class PizzaConfig {
         tList.add(toppingCheeseBean());
         tList.add(toppingHamBean());
         tList.add(toppingPineappleBean());
-        return new Pizza("Hawaiian Pizza", tList, false);
+        return new Pizza("Hawaiian Pizza", 10, 300);
     }
 
     @Bean(name = "salami_pizza")
@@ -59,54 +59,50 @@ public class PizzaConfig {
         tList.add(toppingTomatoBean());
         tList.add(toppingCheeseBean());
         tList.add(toppingSalamiBean());
-        return new Pizza("Salami Pizza", tList, false);
+        return new Pizza("Salami Pizza", 8, 400);
     }
 
-    @Bean(name = "salami_pizza_xl")
-    public Pizza pizzaSalamiXlBean() {
-        List<Topping> tList = new ArrayList<>();
-        tList.add(toppingTomatoBean());
-        tList.add(toppingCheeseBean());
-        tList.add(toppingSalamiBean());
-        return new Pizza("Salami Pizza XL", tList, true);
+
+    @Bean
+    public Drink limonata () {
+        return new Drink("Limonata", 3.0, 100, 0.4);
     }
 
-    @Bean(name = "lemonade")
-    public Drink lemonadeBean() {
-        return new Drink("Lemonade", 128, 1.29);
+    @Bean
+    public Drink acqua () {
+        return new Drink("Acqua", 1.0, 0, 0.5);
     }
 
-    @Bean(name = "water")
-    public Drink waterBean() {
-        return new Drink("Water", 0, 1.29);
+    @Bean
+    public Drink cola () {
+        return new Drink("Cola", 2.5, 200, 0.33);
     }
 
-    @Bean(name = "wine")
-    public Drink wineBean() {
-        return new Drink("Wine", 607, 7.49);
+    @Bean
+    public Menu menu() {
+        Menu menu = new Menu();
+        menu.addElemento(pizzaMargheritaBean());
+        menu.addElemento(pizzaHawaiianBean());
+        menu.addElemento(pizzaSalamiBean());
+        menu.addElemento(limonata());
+        menu.addElemento(cola());
+        menu.addElemento(acqua());
+        return menu;
     }
 
-    @Bean(name = "menu")
-    public Menu menuBean() {
-        List<Pizza> pizzaList = new ArrayList<>();
-        List<Drink> drinkList = new ArrayList<>();
-        List<Topping> toppingsList = new ArrayList<>();
+    // ben per tavoli
+    @Bean
+    public Table tavolox6() {
+        return new Table(1, 6, StatoTavolo.LIBERO);
+    }
 
-        pizzaList.add(pizzaMargheritaBean());
-        pizzaList.add(pizzaHawaiianBean());
-        pizzaList.add(pizzaSalamiBean());
-        pizzaList.add(pizzaSalamiXlBean());
+    @Bean
+    public Table tavolox2() {
+        return new Table(1, 2, StatoTavolo.LIBERO);
+    }
 
-        drinkList.add(lemonadeBean());
-        drinkList.add(waterBean());
-        drinkList.add(wineBean());
-
-        toppingsList.add(toppingTomatoBean());
-        toppingsList.add(toppingCheeseBean());
-        toppingsList.add(toppingSalamiBean());
-        toppingsList.add(toppingHamBean());
-        toppingsList.add(toppingPineappleBean());
-
-        return new Menu(pizzaList, drinkList, toppingsList);
+    @Bean
+    public Table tavolox4() {
+        return new Table(1, 4, StatoTavolo.LIBERO);
     }
 }

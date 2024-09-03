@@ -8,8 +8,8 @@ import lombok.Setter;
 public class Drink extends Item {
     private String name;
 
-    public Drink(String name, int calories, double price) {
-        super(calories, price);
+    public Drink(String name, Double price, int calorie, Double litri) {
+        super(price, calorie);
         this.name = name;
     }
 
@@ -17,8 +17,8 @@ public class Drink extends Item {
     public String toString() {
         return "Drink{" +
                 "name='" + name + '\'' +
-                ", calories=" + calories +
                 ", price=" + price +
+                ", calorie=" + calorie +
                 '}';
     }
 }

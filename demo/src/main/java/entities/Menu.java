@@ -10,26 +10,29 @@ import java.util.List;
 
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Menu {
-    private List<Pizza> pizzaList;
-    private List<Drink> drinkList;
-    private List<Topping> toppingList;
+    private List<Item> elementiMenu;
 
-    public void printMenu() {
-        System.out.println("******* Menu *******");
-        System.out.println("PIZZAS");
-        this.pizzaList.forEach(System.out::println);
-        System.out.println();
-
-        System.out.println("TOPPINGS");
-        this.toppingList.forEach(System.out::println);
-        System.out.println();
-
-        System.out.println("DRINKS");
-        this.drinkList.forEach(System.out::println);
-        System.out.println();
-
+    public Menu() {
+        this.elementiMenu = new ArrayList<>();
     }
+
+    public void addElemento(Item elemento){
+        elementiMenu.add(elemento);
+    }
+
+    public void stampaMenu() {
+        elementiMenu.forEach(System.out::println);
+    }
+
+    public List<Item> getElementiMenu() {
+        return elementiMenu;
+    }
+
+    public void setElementiMenu(List<Item> elementiMenu) {
+        this.elementiMenu = elementiMenu;
+    }
+
+
 }

@@ -5,19 +5,27 @@ import lombok.Getter;
 @Getter
 public abstract class Item {
 
-    protected int calories;
-    protected double price;
+    protected Double price;
+    protected int calorie;
 
-    public Item(int calories, double price) {
-        this.calories = calories;
+    public Item(Double price, int calorie) {
+        this.price = price;
+        this.calorie = calorie;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public int getCalories() {
-        return calories;
+    public int getCalorie() {
+        return calorie;
     }
 
-    public double getPrice() {
-        return price;
+    public void setCalorie(int calorie) {
+        this.calorie = calorie;
     }
 }
