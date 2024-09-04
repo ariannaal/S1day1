@@ -1,40 +1,53 @@
 package entities;
 
-import enums.StatoTavolo;
-
 public class Table {
+    private int numTable;
+    private int numMaxCoperti;
+    private boolean isFree;
+    private double costoCoperto;
 
-    private int nTavolo;
-    private int maxSeats;
-    private StatoTavolo stato;
-
-    public Table(int nTavolo, int maxSeats, StatoTavolo stato) {
-        this.nTavolo = nTavolo;
-        this.maxSeats = maxSeats;
-        this.stato = StatoTavolo.LIBERO;
+    public Table(int numTable, int numMaxCoperti, boolean isFree, double costoCoperto) {
+        this.numTable = numTable;
+        this.numMaxCoperti = numMaxCoperti;
+        this.isFree = isFree;
+        this.costoCoperto = costoCoperto;
     }
 
-    public int getnTavolo() {
-        return nTavolo;
+    public void print() {
+        System.out.println("numero tavolo--> " + numTable);
+        System.out.println("numero massimo coperti--> " + numMaxCoperti);
+        System.out.println("occupato/libero--> " + (this.isFree ? "Libero" : "Occupato"));
     }
 
-    public void setnTavolo(int nTavolo) {
-        this.nTavolo = nTavolo;
+    public int getNumTable() {
+        return numTable;
     }
 
-    public int getMaxSeats() {
-        return maxSeats;
+    public void setNumTable(int numTable) {
+        this.numTable = numTable;
     }
 
-    public void setMaxSeats(int maxSeats) {
-        this.maxSeats = maxSeats;
+    public int getNumMaxCoperti() {
+        return numMaxCoperti;
     }
 
-    public StatoTavolo getStato() {
-        return stato;
+    public void setNumMaxCoperti(int numMaxCoperti) {
+        this.numMaxCoperti = numMaxCoperti;
     }
 
-    public void setStato(StatoTavolo stato) {
-        this.stato = stato;
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
+    public double getCostoCoperto() {
+        return costoCoperto;
+    }
+
+    public void setCostoCoperto(double costoCoperto) {
+        this.costoCoperto = costoCoperto;
     }
 }

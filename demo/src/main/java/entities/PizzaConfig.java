@@ -1,38 +1,51 @@
 package entities;
 
-import enums.StatoTavolo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Configuration // indica che la classe PizzaConfig è una classe di configurazione che contiene definizioni di bean
+@PropertySource("application.properties") //carica le proprietà definite nel file application.properties, che possono
+// essere iniettate nei bean tramite l'annotazione @Value
 public class PizzaConfig {
 
     @Bean(name = "toppings_tomato")
     public Topping toppingTomatoBean() {
-        return new Topping("Tomato", 1.0, 10);
+
+        return new Topping("Tomato", 0, 0);
     }
 
     @Bean(name = "toppings_cheese")
     public Topping toppingCheeseBean() {
-        return new Topping("Cheese", 0.69, 92);
+
+        return new Topping("Cheese", 92, 0.69);
     }
 
     @Bean(name = "toppings_ham")
     public Topping toppingHamBean() {
-        return new Topping("Ham", 0.99, 35);
+
+        return new Topping("Ham", 35, 0.99);
     }
 
     @Bean(name = "toppings_pineapple")
     public Topping toppingPineappleBean() {
-        return new Topping("Pineapple", 0.79, 24);
+
+        return new Topping("Pineapple", 24, 0.79);
     }
 
     @Bean(name = "toppings_salami")
     public Topping toppingSalamiBean() {
-        return new Topping("Salami", 0.99, 86);
+
+        return new Topping("Salami", 86, 0.99);
+    }
+
+    @Bean(name = "menu")
+    public Menu menuBean() {
+        return new Menu(pizzaList(), drinksList(), toppingsList());
     }
 
     @Bean(name = "pizza_margherita")
@@ -40,7 +53,7 @@ public class PizzaConfig {
         List<Topping> tList = new ArrayList<>();
         tList.add(toppingTomatoBean());
         tList.add(toppingCheeseBean());
-        return new Pizza("Pizza Margherita", 6, 200);
+        return new Pizza("Pizza Margherita", tList, false);
     }
 
     @Bean(name = "hawaiian_pizza")
@@ -50,7 +63,7 @@ public class PizzaConfig {
         tList.add(toppingCheeseBean());
         tList.add(toppingHamBean());
         tList.add(toppingPineappleBean());
-        return new Pizza("Hawaiian Pizza", 10, 300);
+        return new Pizza("Hawaiian Pizza", tList, false);
     }
 
     @Bean(name = "salami_pizza")
@@ -59,50 +72,82 @@ public class PizzaConfig {
         tList.add(toppingTomatoBean());
         tList.add(toppingCheeseBean());
         tList.add(toppingSalamiBean());
-        return new Pizza("Salami Pizza", 8, 400);
+        return new Pizza("Salami Pizza", tList, false);
+    }
+
+    @Bean(name = "salami_pizza_xl")
+    public Pizza pizzaSalamiXlBean() {
+        List<Topping> tList = new ArrayList<>();
+        tList.add(toppingTomatoBean());
+        tList.add(toppingCheeseBean());
+        tList.add(toppingSalamiBean());
+        return new Pizza("Salami Pizza XL", tList, true);
+    }
+
+    @Bean(name = "lemonade")
+    public Drink lemonadeBean() {
+
+        return new Drink("Lemonade", 128, 1.29);
+    }
+
+    @Bean(name = "water")
+    public Drink waterBean() {
+
+        return new Drink("Water", 0, 1.29);
+    }
+
+    @Bean(name = "wine")
+    public Drink wineBean() {
+
+        return new Drink("Wine", 607, 7.49);
+    }
+
+    @Bean("pizzas")
+    List<Pizza> pizzaList() {
+        List<Pizza> pizzas = new ArrayList<>();
+        pizzas.add(pizzaMargheritaBean());
+        pizzas.add(pizzaHawaiianBean());
+        pizzas.add(pizzaSalamiBean());
+        pizzas.add(pizzaSalamiXlBean());
+        return pizzas;
+    }
+
+    @Bean("drinks")
+    List<Drink> drinksList() {
+        List<Drink> drinks = new ArrayList<>();
+        drinks.add(lemonadeBean());
+        drinks.add(waterBean());
+        drinks.add(wineBean());
+        return drinks;
+    }
+
+    @Bean("toppings")
+    List<Topping> toppingsList() {
+        List<Topping> toppings = new ArrayList<>();
+        toppings.add(toppingTomatoBean());
+        toppings.add(toppingCheeseBean());
+        toppings.add(toppingSalamiBean());
+        toppings.add(toppingHamBean());
+        toppings.add(toppingPineappleBean());
+        return toppings;
     }
 
 
-    @Bean
-    public Drink limonata () {
-        return new Drink("Limonata", 3.0, 100, 0.4);
+    @Bean("Tavolo1")
+    Table getTable1(@Value("${seat.price}") double seatPrice) {
+
+        return new Table(1, 5, true, seatPrice);
     }
 
-    @Bean
-    public Drink acqua () {
-        return new Drink("Acqua", 1.0, 0, 0.5);
+    @Bean("Tavolo2")
+    Table getTable2(@Value("${seat.price}") double seatPrice) {
+
+        return new Table(2, 4, true, seatPrice);
     }
 
-    @Bean
-    public Drink cola () {
-        return new Drink("Cola", 2.5, 200, 0.33);
-    }
+    @Bean("Tavolo3")
+    Table getTable3(@Value("${seat.price}") double seatPrice) {
 
-    @Bean
-    public Menu menu() {
-        Menu menu = new Menu();
-        menu.addElemento(pizzaMargheritaBean());
-        menu.addElemento(pizzaHawaiianBean());
-        menu.addElemento(pizzaSalamiBean());
-        menu.addElemento(limonata());
-        menu.addElemento(cola());
-        menu.addElemento(acqua());
-        return menu;
-    }
-
-    // ben per tavoli
-    @Bean
-    public Table tavolox6() {
-        return new Table(1, 6, StatoTavolo.LIBERO);
-    }
-
-    @Bean
-    public Table tavolox2() {
-        return new Table(1, 2, StatoTavolo.LIBERO);
-    }
-
-    @Bean
-    public Table tavolox4() {
-        return new Table(1, 4, StatoTavolo.LIBERO);
+        return new Table(3, 8, true, seatPrice);
     }
 }

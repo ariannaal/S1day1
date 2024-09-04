@@ -6,19 +6,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-
+@Import(PizzaConfig.class)
 public class S1D1Application {
 
 	public static void main(String[] args) {
-		ApplicationContext context = new AnnotationConfigApplicationContext(PizzaConfig.class);
-		Menu menu = context.getBean(Menu.class);
-		menu.stampaMenu();
-
-		SpringApplication.run(S1D1Application.class, args);
-		Order order = context.getBean(Order.class);
-		order.stampaOrdine();
+			SpringApplication.run(S1D1Application.class, args);
 
 	}
 }

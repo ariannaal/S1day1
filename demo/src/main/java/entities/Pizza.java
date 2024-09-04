@@ -5,29 +5,51 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public class Pizza extends Item {
     private String name;
-    private List<Topping> toppings;
 
-    public Pizza(String name, double prezzo, int calorie) {
-        super(prezzo, calorie);
+    private List<Topping> toppingList;
+    private boolean isXl = false;
+
+    public Pizza(String name, List<Topping> toppingList, boolean isXl) {
+        super(700, 4.3);
         this.name = name;
-        this.toppings = new ArrayList<>();
+        this.toppingList = toppingList;
+        this.isXl = isXl;
     }
 
-    public void addTopping(Topping topping) {
-        toppings.add(topping);
+    public String getName() {
+        return name;
+    }
+
+    public List<Topping> getToppingList() {
+        return toppingList;
+    }
+
+    public boolean isXl() {
+        return isXl;
+    }
+
+    @Override
+    public int getCalories() {
+        return super.getCalories() + this.getToppingList().stream().mapToInt(Topping::getCalories).sum();
+    }
+
+    @Override
+    public double getPrice() {
+        return super.getPrice() + this.getToppingList().stream().mapToDouble(Topping::getPrice).sum();
     }
 
     @Override
     public String toString() {
         return "Pizza{" +
                 "name='" + name + '\'' +
-                ", toppings=" + toppings +
+                ", calories=" + calories +
                 ", price=" + price +
-                ", calorie=" + calorie +
+                ", toppingList=" + toppingList +
+                ", isXl=" + isXl +
                 '}';
     }
 }
+
 

@@ -3,13 +3,19 @@ package entities;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class Drink extends Item {
     private String name;
 
-    public Drink(String name, Double price, int calorie, Double litri) {
-        super(price, calorie);
+    public Drink(String name, int calories, double price) {
+        super(calories, price);
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -17,8 +23,8 @@ public class Drink extends Item {
     public String toString() {
         return "Drink{" +
                 "name='" + name + '\'' +
+                ", calories=" + calories +
                 ", price=" + price +
-                ", calorie=" + calorie +
                 '}';
     }
 }

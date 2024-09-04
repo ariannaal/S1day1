@@ -4,35 +4,71 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@ToString
-
+@Component
 public class Menu {
-    private List<Item> elementiMenu;
+    private List<Pizza> pizzaList;
+    private List<Drink> drinkList;
+    private List<Topping> toppingList;
 
-    public Menu() {
-        this.elementiMenu = new ArrayList<>();
+    public Menu(List<Pizza> pizzaList, List<Drink> drinkList, List<Topping> toppingList) {
+        this.pizzaList = pizzaList;
+        this.drinkList = drinkList;
+        this.toppingList = toppingList;
     }
 
-    public void addElemento(Item elemento){
-        elementiMenu.add(elemento);
+    public List<Pizza> getPizzaList() {
+        return pizzaList;
     }
 
-    public void stampaMenu() {
-        elementiMenu.forEach(System.out::println);
+    public void setPizzaList(List<Pizza> pizzaList) {
+        this.pizzaList = pizzaList;
     }
 
-    public List<Item> getElementiMenu() {
-        return elementiMenu;
+    public List<Drink> getDrinkList() {
+        return drinkList;
     }
 
-    public void setElementiMenu(List<Item> elementiMenu) {
-        this.elementiMenu = elementiMenu;
+    public void setDrinkList(List<Drink> drinkList) {
+        this.drinkList = drinkList;
     }
 
+    public List<Topping> getToppingList() {
+        return toppingList;
+    }
 
+    public void setToppingList(List<Topping> toppingList) {
+        this.toppingList = toppingList;
+    }
+
+    // metodo per stampare l'intero menu
+    public void printMenu() {
+        System.out.println("******* Menu *******");
+        System.out.println("PIZZAS");
+        this.pizzaList.forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("TOPPINGS");
+        this.toppingList.forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("DRINKS");
+        this.drinkList.forEach(System.out::println);
+        System.out.println();
+
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "pizzaList=" + pizzaList +
+                ", drinkList=" + drinkList +
+                ", toppingList=" + toppingList +
+                '}';
+    }
 }
+

@@ -7,122 +7,53 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Order {
-
-    private int OrderN;
+    private int numeroOrdine;
+    private StatoOrdine state;
+    private int numCoperti;
+    private LocalTime oraAcquisizione;
+    private List<Item> orderedProducts;
     private Table table;
-    private StatoOrdine statoOrdine;
-    private List<Item> orderItems;
-    private int nOfSeats;
-    private LocalTime orderTime;
-    private double totalAmount;
 
-    @Value("$costo.coperto")
-    private double coverCharge;
-
-    public Order(int orderN, Table table, StatoOrdine statoOrdine, int nOfSeats, LocalDateTime orderTime) {
-        OrderN = orderN;
-        this.table = table;
-        this.statoOrdine = StatoOrdine.IN_CORSO;
-        this.orderItems = new ArrayList<>();
-        this.nOfSeats = nOfSeats;
-        this.totalAmount = totalAmount;
-    }
-
-    private double totalAmount() {
-        double itemTotal = 0.0; // parte da 0
-        for (Item item : orderItems) { // somma i prezzi dell'ordine
-            itemTotal += item.getPrice();
-        }
-        double totalCoverCharge = nOfSeats * coverCharge; // calcola costo totale dei coperti
-        return itemTotal + totalCoverCharge;
-    }
-
-    public void addElementoComanda(Item item) {
-        orderItems.add(item);
-    }
-
-    public int getOrderN() {
-        return OrderN;
-    }
-
-    public void setOrderN(int orderN) {
-        OrderN = orderN;
-    }
-
-    public Table getTable() {
-        return table;
-    }
-
-    public void setTable(Table table) {
+    public Order(int numCoperti, Table table) {
+        Random rndm = new Random();
+        // controllo se il numero di coperti supera il numero massimo di posti al tavolo
+        if (table.getNumMaxCoperti() <= numCoperti)
+            throw new RuntimeException("Numero coperti maggiore di numero massimo posti sul tavolo!");
+        // genera un numero d'ordine casuale
+        this.numeroOrdine = rndm.nextInt(1000, 100000);
+        // imposta lo stato dell'ordine come in corso
+        this.state = StatoOrdine.IN_CORSO;
+        this.numCoperti = numCoperti;
+        this.oraAcquisizione = LocalTime.now();
+        // inizializza la lista dei prodotti ordinati
+        this.orderedProducts = new ArrayList<>();
         this.table = table;
     }
 
-    public StatoOrdine getStatoOrdine() {
-        return statoOrdine;
+    // metodo per aggiungere un item all'ordine
+    public void addItem(Item item) {
+        this.orderedProducts.add(item);
     }
 
-    public void setStatoOrdine(StatoOrdine statoOrdine) {
-        this.statoOrdine = statoOrdine;
+    // metodo per calcolare il totale dell'ordine
+    public double getTotal() {
+        return this.orderedProducts.stream().mapToDouble(Item::getPrice).sum() + (this.table.getCostoCoperto() * this.numCoperti);
     }
 
-    public List<Item> getOrderItems() {
-        return orderItems;
-    }
+    // metodo per stampare i dettagli dell'ordine
+    public void print() {
+        System.out.println("id ordine--> " + this.numeroOrdine);
+        System.out.println("stato--> " + this.state);
+        System.out.println("numero coperti--> " + this.numCoperti);
+        System.out.println("ora acquisizione--> " + this.oraAcquisizione);
+        System.out.println("numero tavolo--> " + this.table.getNumTable());
+        System.out.println("Lista: ");
+        this.orderedProducts.forEach(System.out::println);
+        System.out.println("totale--> " + this.getTotal());
 
-    public void setOrderItems(List<Item> orderItems) {
-        this.orderItems = orderItems;
     }
-
-    public int getnOfSeats() {
-        return nOfSeats;
-    }
-
-    public void setnOfSeats(int nOfSeats) {
-        this.nOfSeats = nOfSeats;
-    }
-
-    public LocalTime getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(LocalTime orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public double getCoverCharge() {
-        return coverCharge;
-    }
-
-    public void setCoverCharge(double coverCharge) {
-        this.coverCharge = coverCharge;
-    }
-
-    public void stampaOrdine() {
-        orderItems.forEach(System.out::println);
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "OrderN=" + OrderN +
-                ", table=" + table +
-                ", statoOrdine=" + statoOrdine +
-                ", orderItems=" + orderItems +
-                ", nOfSeats=" + nOfSeats +
-                ", orderTime=" + orderTime +
-                ", totalAmount=" + totalAmount +
-                ", coverCharge=" + coverCharge +
-                '}';
-    }
-
 }
+

@@ -1,52 +1,42 @@
 package com.example.demo;
 
-import entities.Item;
-import entities.Menu;
-import entities.Order;
-import entities.Table;
-import enums.StatoOrdine;
-import enums.StatoTavolo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import entities.*;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Component
 public class MyRunner implements CommandLineRunner {
-    //qui ci vanno i componenti da richiamare
-
-    private static final Logger logger = LoggerFactory.getLogger(MyRunner.class);
-
-    @Autowired
-    private Menu menu;
-
-    @Autowired
-    private Table tavolox2;
-
     @Override
     public void run(String... args) throws Exception {
-        logger.info("Inizio run");
 
-        // stampo il menu
-        menu.stampaMenu();
+        //crea un contesto di applicazione basato sulla configurazione definita nella classe S1D1Application
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(S1D1Application.class);
+        try {
+            Menu m = (Menu) ctx.getBean("menu"); //  recupera il bean "menu" dal contesto Spring e lo stampa
+            m.printMenu();
 
-        // creo un ordine
-        Order ordine = new Order(1, tavolox2, StatoOrdine.IN_CORSO, 2, LocalDateTime.now());
-        ordine.addElementoComanda(menu.getElementiMenu().get(0));
-        ordine.addElementoComanda(menu.getElementiMenu().get(0));
+            Table t1 = (Table) ctx.getBean("Tavolo1");
 
-        // stasmpo l'ordine
-        System.out.println(ordine);
+            Order o1 = new Order(4, t1);
 
-        logger.info("Fine run");
+            // aggiunbge agli ordini
+            o1.addItem(ctx.getBean("pizza_margherita", Pizza.class));
+            o1.addItem(ctx.getBean("hawaiian_pizza", Pizza.class));
+            o1.addItem(ctx.getBean("salami_pizza_xl", Pizza.class));
+            o1.addItem(ctx.getBean("lemonade", Drink.class));
+            o1.addItem(ctx.getBean("lemonade", Drink.class));
+            o1.addItem(ctx.getBean("wine", Drink.class));
+
+            System.out.println("DETTAGLI TAVOLO 1:");
+            o1.print();
+
+            System.out.println("CONTO TAVOLO 1");
+            System.out.println(o1.getTotal());
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        } finally {
+            ctx.close();
+        }
     }
 }
