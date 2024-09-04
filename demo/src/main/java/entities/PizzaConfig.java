@@ -84,6 +84,11 @@ public class PizzaConfig {
         return new Pizza("Salami Pizza XL", tList, true);
     }
 
+    @Bean(name = "costo_coperto")
+    public String costoCoperto (@Value("${seat.price}")String costoCoperto){
+        return costoCoperto;
+    }
+
     @Bean(name = "lemonade")
     public Drink lemonadeBean() {
 
